@@ -1,0 +1,25 @@
+<div *ngFor="let item of metaData">
+    <div style="width: 100%; display: flex; justify-content:space-around; border-bottom: 1px solid #ccc; padding-bottom: 20px;  margin-bottom: 20px;">
+        <div>{{item.section}}</div>
+        <div>
+            <div *ngFor="let component of item.components">
+                <div>{{component.label}}</div>
+                <!-- type is textbox -->
+                <div *ngIf="component.type == 'textbox'">
+                    <input type="text" [placeholder]="component.label" [(ngModel)]="_formData[component.key]" (ngModelChange)="validateForm()"/>
+                </div>
+                <!-- type is radio -->
+                <div *ngIf="component.type == 'radio'">
+                    <div *ngFor="let option of component.options">
+                        <input type="radio" name="{{component.key}}" [(ngModel)]="_formData[component.key]" (ngModelChange)="validateForm()"
+                            [value]="option" />{{option.label}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- generate a new button for validate result -->
+<button (click)="submitForm()" [disabled]="!_isValid">Validate Result</button>
